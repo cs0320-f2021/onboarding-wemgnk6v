@@ -67,7 +67,21 @@ public final class Main {
         try {
           input = input.trim();
           String[] arguments = input.split(" ");
-          System.out.println(arguments[0]);
+          String firstWord = arguments[0];
+          MathBot mb = new MathBot();
+          if (firstWord.equals("add")) {
+            Double arg1 = Double.parseDouble(arguments[1]);
+            Double arg2 = Double.parseDouble(arguments[2]);
+            Double sum = mb.add(arg1, arg2);
+            System.out.println(sum);
+          } else if (firstWord.equals("subtract")) {
+            Double arg1 = Double.parseDouble(arguments[1]);
+            Double arg2 = Double.parseDouble(arguments[2]);
+            Double result = mb.subtract(arg1, arg2);
+            System.out.println(result);
+          } else {
+            System.out.println(firstWord);
+          }
           // TODO: complete your REPL by adding commands for addition "add" and subtraction
           //  "subtract"
         } catch (Exception e) {
