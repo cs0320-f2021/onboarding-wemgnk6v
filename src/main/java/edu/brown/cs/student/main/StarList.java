@@ -3,12 +3,12 @@ package edu.brown.cs.student.main;
 import java.util.List;
 
 public class StarList {
-    // List of stars
-    List<Star> list;
+  // List of stars
+  private List<Star> list;
 
-    public StarList(List<Star> list){
-        list = list;
-    }
+  public StarList(List<Star> list) {
+    list = list;
+  }
 
-    // methods for both KNN algorithms
+  // methods for both KNN algorithms
 }
