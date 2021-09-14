@@ -60,6 +60,9 @@ public final class Main {
       runSparkServer((int) options.valueOf("port"));
     }
 
+    // StarList
+    StarList starList = null;
+
     // TODO: Add your REPL here!
     try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
       String input;
@@ -79,6 +82,12 @@ public final class Main {
             Double arg2 = Double.parseDouble(arguments[2]);
             Double result = mb.subtract(arg1, arg2);
             System.out.println(result);
+          } else if (firstWord.equals("stars")) {
+            // TO DO: informative error handling for file names and ensure quotation marks?
+            CsvParser csvParser = new CsvParser(arguments[1]);
+            starList = csvParser.makeStarList();
+          } else if (firstWord.equals("naive_neighbors")) {
+            // TO DO:
           } else {
             System.out.println(firstWord);
           }
