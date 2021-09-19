@@ -60,10 +60,7 @@ public final class Main {
       runSparkServer((int) options.valueOf("port"));
     }
 
-    // StarList
     StarList starList = null;
-
-    // TODO: Add your REPL here!
     try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
       String input;
       while ((input = br.readLine()) != null) {
@@ -82,24 +79,43 @@ public final class Main {
             Double arg2 = Double.parseDouble(arguments[2]);
             Double result = mb.subtract(arg1, arg2);
             System.out.println(result);
-          } else if (firstWord.equals("stars")) {
-            // TO DO: informative error handling for file names and ensure quotation marks?
+          } else if (firstWord.equals("stars") && (arguments.length == 2)) {
             CsvParser csvParser = new CsvParser(arguments[1]);
             starList = csvParser.makeStarList();
+            System.out.println("Read " + starList.size() + " stars from " + arguments[1]);
           } else if (firstWord.equals("naive_neighbors")) {
-            // TO DO:
+            String[] nameArgumentArray = input.split("\"");
+            if (arguments.length == 5) {
+              int k = Integer.parseInt(arguments[1]);
+              Double x = Double.parseDouble(arguments[2]);
+              Double y = Double.parseDouble(arguments[3]);
+              Double z = Double.parseDouble(arguments[4]);
+              StarNeighborCalculator calculator = new StarNeighborCalculator(starList, k, x, y, z);
+              calculator.printKNN();
+            } else if (nameArgumentArray.length == 2) {
+              int k = Integer.parseInt(arguments[1]);
+              Star star = starList.getStarByName(nameArgumentArray[1]);
+              Double x = star.getX();
+              Double y = star.getY();
+              Double z = star.getZ();
+              starList = starList.removeStar(star);
+              StarNeighborCalculator calculator = new StarNeighborCalculator(starList, k, x, y, z);
+              calculator.printKNN();
+            } else {
+              System.out.println("ERROR: incorrectly formatted input. "
+                  + "Accepted naive_neighbors input: \"naive_neighbors <k> <x> <y> <z>\" or "
+                  + "\"naive_neighbors <k> <“name”>\"");
+            }
           } else {
-            System.out.println(firstWord);
+            System.out.println("ERROR: Please input a valid command.");
           }
-          // TODO: complete your REPL by adding commands for addition "add" and subtraction
-          //  "subtract"
+        } catch (NumberFormatException nfe) {
+          System.out.println("ERROR: Incorrect argument type.");
         } catch (Exception e) {
-          // e.printStackTrace();
           System.out.println("ERROR: We couldn't process your input");
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
       System.out.println("ERROR: Invalid input for REPL");
     }
 
